@@ -1,0 +1,35 @@
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "2.0.3"
+}
+
+group "com.effective.hlf"
+version "1.0-SNAPSHOT"
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation "org.hyperledger.fabric-chaincode-java:fabric-chaincode-shim:1.4.8"
+    implementation "org.json:json:20180813"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    baseName = 'chaincode'
+    version = null
+    classifier = null
+
+    manifest {
+        attributes 'Main-Class': 'org.hyperledger.fabric.contract.ContractRouter'
+    }
+}

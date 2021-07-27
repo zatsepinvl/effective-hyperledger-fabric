@@ -32,8 +32,8 @@ public class Buy {
         GatewayPool gatewayPool = new GatewayPoolImpl(1, factory);
         Gateway gateway = gatewayPool.getGateway();
 
-        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME);
-        CommercialPaper result = contract.buy(gateway, "MagnetoCorp", "00003", "MagnetoCorp", "DigiBank", "4900000", "2020-05-31");
+        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME, gateway);
+        CommercialPaper result = contract.buy( "MagnetoCorp", "00003", "MagnetoCorp", "DigiBank", "4900000", "2020-05-31");
         System.out.println(result.toString());
     }
 

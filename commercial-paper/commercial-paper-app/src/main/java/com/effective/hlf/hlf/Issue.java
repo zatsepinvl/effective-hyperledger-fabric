@@ -14,7 +14,9 @@ import com.effective.hlf.hlf.logging.LoggingUtils;
 import org.apache.logging.log4j.Level;
 import org.hyperledger.fabric.gateway.ContractException;
 import org.hyperledger.fabric.gateway.Gateway;
+import org.json.JSONArray;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
 
@@ -30,11 +32,14 @@ public class Issue {
 
         TransactionEventManager eventManager = new TransactionEventManagerImpl();
         GatewayFactory factory = new GatewayFactoryImpl(eventManager, isabellaUser, networkConfigFile);
-        GatewayPool gatewayPool = new GatewayPoolImpl(2, factory);
+        GatewayPool gatewayPool = new GatewayPoolImpl(1, factory);
         Gateway gateway = gatewayPool.getGateway();
 
-        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME);
-        CommercialPaper result = contract.issue(gateway, "MagnetoCorp", "00003", "2020-05-31", "2020-11-30", "5000000");
+        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME, gateway);
+        contract.getContract().addContractListener((event) -> {
+            System.out.println(new JSONArray(new String(event.getPayload().get(), StandardCharsets.UTF_8)));
+        });
+        CommercialPaper result = contract.issue("MagnetoCorp", "00003", "2020-05-31", "2020-11-30", "5000000");
         System.out.println(result.toString());
     }
 

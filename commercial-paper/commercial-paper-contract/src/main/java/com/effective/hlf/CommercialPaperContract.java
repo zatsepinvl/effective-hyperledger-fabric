@@ -4,6 +4,8 @@ SPDX-License-Identifier: Apache-2.0
 package com.effective.hlf;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.effective.hlf.ledgerapi.State;
@@ -16,6 +18,10 @@ import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * A custom context provides easy access to list of all commercial papers
@@ -86,6 +92,14 @@ public class CommercialPaperContract implements ContractInterface {
         // Add the paper to the list of all similar commercial papers in the ledger
         // world state
         ctx.paperList.addPaper(paper);
+
+        List<String> events = new ArrayList<>();
+        events.add("issued");
+        String jsonStr = new JSONArray(events).toString();
+        System.out.println(jsonStr);
+        ctx.getStub().setEvent("event", jsonStr.getBytes(UTF_8));
+
+        System.out.println("EVENT SENT");
 
         // Must return a serialized paper to caller of smart contract
         return paper;

@@ -4,6 +4,4 @@ set -ev
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
 
-docker-compose down
-docker-compose up -d
-. init.sh
+docker exec cli bash scripts/init.sh

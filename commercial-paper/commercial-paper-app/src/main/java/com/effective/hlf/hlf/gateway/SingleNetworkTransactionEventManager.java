@@ -3,25 +3,34 @@ package com.effective.hlf.hlf.gateway;
 import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.sdk.BlockEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public class TransactionEventManagerImpl implements TransactionEventManager, Consumer<BlockEvent> {
-    private final Map<String, TransactionListener> txListeners = new ConcurrentHashMap<>();
-    private final Map<Network, Consumer<BlockEvent>> blockListeners = new HashMap<>();
+
+public class SingleNetworkTransactionEventManager implements TransactionEventManager, Consumer<BlockEvent> {
+
+    private final Map<String, TransactionListener> txListeners;
+    private Network network;
+
+    public SingleNetworkTransactionEventManager() {
+        this.txListeners = new ConcurrentHashMap<>();
+    }
+
+    public void startListening(Network network) {
+        this.network = network;
+        network.addBlockListener(this);
+    }
 
     @Override
     public void addTransactionListener(Network network, String txId, TransactionListener listener) {
-        synchronized (blockListeners) {
-            txListeners.put(txId, listener);
-            if (blockListeners.containsKey(network)) {
-                return;
-            }
-            network.addBlockListener(this);
-            blockListeners.put(network, this);
+        if (this.network == null) {
+            throw new IllegalStateException("Start listening for events first.");
         }
+      /*  if (!this.network.equals(network)) {
+            throw new IllegalStateException("This TransactionEventManager listens for another network.");
+        }*/
+        txListeners.put(txId, listener);
     }
 
     @Override

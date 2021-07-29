@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 package com.effective.hlf.hlf;
 
 import com.effective.hlf.hlf.commercialpaper.CommercialPaper;
-import com.effective.hlf.hlf.commercialpaper.CommercialPaperContract;
+import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
 import com.effective.hlf.hlf.gateway.*;
 import com.effective.hlf.hlf.network.BasicNetworkUsers;
 import com.effective.hlf.hlf.logging.LoggingUtils;
@@ -32,7 +32,7 @@ public class Buy {
         GatewayPool gatewayPool = new GatewayPoolImpl(1, factory);
         Gateway gateway = gatewayPool.getGateway();
 
-        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME, gateway);
+        CommercialPaperContractStub contract = new CommercialPaperContractStub(CHANNEL_NAME, gateway);
         CommercialPaper result = contract.buy( "MagnetoCorp", "00003", "MagnetoCorp", "DigiBank", "4900000", "2020-05-31");
         System.out.println(result.toString());
     }

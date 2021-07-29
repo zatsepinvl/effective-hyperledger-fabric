@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 package com.effective.hlf.hlf;
 
 import com.effective.hlf.hlf.commercialpaper.CommercialPaper;
-import com.effective.hlf.hlf.commercialpaper.CommercialPaperContract;
+import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
 import com.effective.hlf.hlf.gateway.UserIdentity;
 import com.effective.hlf.hlf.gateway.*;
 import com.effective.hlf.hlf.network.BasicNetworkUsers;
@@ -14,32 +14,30 @@ import com.effective.hlf.hlf.logging.LoggingUtils;
 import org.apache.logging.log4j.Level;
 import org.hyperledger.fabric.gateway.ContractException;
 import org.hyperledger.fabric.gateway.Gateway;
-import org.json.JSONArray;
+import org.hyperledger.fabric.gateway.Network;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 public class Issue {
 
     private static final String CHANNEL_NAME = "mychannel";
 
-    public static void main(String[] args) throws ContractException, InterruptedException, TimeoutException {
-        LoggingUtils.setHlfSdkGlobalLogLevel(Level.DEBUG);
+    public static void main(String[] args) throws ContractException, InterruptedException, TimeoutException, BrokenBarrierException {
+        LoggingUtils.setHlfSdkGlobalLogLevel(Level.WARN);
 
         UserIdentity isabellaUser = BasicNetworkUsers.getIsabellaUserIdentity();
         Path networkConfigFile = BasicNetwork.getNetworkConfigPath();
 
-        TransactionEventManager eventManager = new TransactionEventManagerImpl();
+        SingleNetworkTransactionEventManager eventManager = new SingleNetworkTransactionEventManager();
         GatewayFactory factory = new GatewayFactoryImpl(eventManager, isabellaUser, networkConfigFile);
         GatewayPool gatewayPool = new GatewayPoolImpl(1, factory);
         Gateway gateway = gatewayPool.getGateway();
+        Network network = gateway.getNetwork(CHANNEL_NAME);
+        eventManager.startListening(network);
 
-        CommercialPaperContract contract = new CommercialPaperContract(CHANNEL_NAME, gateway);
-        contract.getContract().addContractListener((event) -> {
-            System.out.println(new JSONArray(new String(event.getPayload().get(), StandardCharsets.UTF_8)));
-        });
-        CommercialPaper result = contract.issue("MagnetoCorp", "00003", "2020-05-31", "2020-11-30", "5000000");
+        CommercialPaperContractStub contract = new CommercialPaperContractStub(CHANNEL_NAME, gateway);
+        CommercialPaper result = contract.issue("MagnetoCorp", "001", "2020-05-31", "2020-11-30", "5000000");
         System.out.println(result.toString());
     }
 

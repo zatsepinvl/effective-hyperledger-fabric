@@ -7,14 +7,14 @@ import org.hyperledger.fabric.gateway.Network;
 
 import java.util.concurrent.TimeoutException;
 
-public class CommercialPaperContract {
+public class CommercialPaperContractStub {
     private static final String CONTRACT_CHAINCODE_ID = "papercontract";
     private static final String CONTRACT_NAME = "org.papernet.commercialpaper";
 
     private final String channel;
     private final Gateway gateway;
 
-    public CommercialPaperContract(String channel, Gateway gateway) {
+    public CommercialPaperContractStub(String channel, Gateway gateway) {
         this.channel = channel;
         this.gateway = gateway;
     }

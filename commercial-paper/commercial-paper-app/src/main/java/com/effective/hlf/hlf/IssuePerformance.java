@@ -38,7 +38,7 @@ public class IssuePerformance {
         CommercialPaperContractStub contract1 = new CommercialPaperContractStub(CHANNEL_NAME, gateway1);
         CommercialPaperContractStub contract2 = new CommercialPaperContractStub(CHANNEL_NAME, gateway2);
 
-        int n = 200;
+        int n = 1;
         CountDownLatch latch = new CountDownLatch(1);
         ExecutorService executor = Executors.newFixedThreadPool(20);
         for (int i = 0; i < n; i++) {

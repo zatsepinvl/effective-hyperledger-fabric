@@ -7,9 +7,10 @@ package com.effective.hlf.hlf;
 import com.effective.hlf.hlf.commercialpaper.CommercialPaper;
 import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
 import com.effective.hlf.hlf.gateway.*;
-import com.effective.hlf.hlf.network.BasicNetworkUsers;
+import com.effective.hlf.hlf.wallet.NetworkUsers;
 import com.effective.hlf.hlf.logging.LoggingUtils;
 import com.effective.hlf.hlf.network.BasicNetwork;
+import com.effective.hlf.hlf.wallet.UserIdentity;
 import org.apache.logging.log4j.Level;
 import org.hyperledger.fabric.gateway.ContractException;
 import org.hyperledger.fabric.gateway.Gateway;
@@ -24,7 +25,7 @@ public class Buy {
     public static void main(String[] args) throws InterruptedException, ContractException, TimeoutException {
         LoggingUtils.setHlfSdkGlobalLogLevel(Level.INFO);
 
-        UserIdentity isabellaUser = BasicNetworkUsers.getBalajiUserIdentity();
+        UserIdentity isabellaUser = NetworkUsers.getBalajiUserIdentity();
         Path networkConfigFile = BasicNetwork.getNetworkConfigPath();
 
         TransactionEventManager eventManager = new TransactionEventManagerImpl();

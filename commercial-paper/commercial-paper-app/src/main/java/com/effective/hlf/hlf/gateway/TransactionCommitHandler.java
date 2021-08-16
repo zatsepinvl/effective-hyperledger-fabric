@@ -29,7 +29,10 @@ public class TransactionCommitHandler implements CommitHandler {
 
     @Override
     public void waitForEvents(long timeout, TimeUnit timeUnit) throws InterruptedException {
-        BlockEvent.TransactionEvent tx = transactionEvents.take();
+        BlockEvent.TransactionEvent tx = transactionEvents.poll(timeout, timeUnit);
+        if (tx == null) {
+            throw new RuntimeException("Transaction is not received after waiting for " + timeout + " " + timeUnit);
+        }
         if (!tx.isValid()) {
             throw new RuntimeException("Transaction is not valid: " + txId);
         }

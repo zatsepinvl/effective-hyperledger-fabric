@@ -1,9 +1,11 @@
 package com.effective.hlf.hlf.gateway;
 
+import com.effective.hlf.hlf.wallet.UserIdentity;
 import org.hyperledger.fabric.gateway.Gateway;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 public class GatewayFactoryImpl implements GatewayFactory {
     private final TransactionEventManager txEventManager;
@@ -21,7 +23,9 @@ public class GatewayFactoryImpl implements GatewayFactory {
         return Gateway.createBuilder()
                 .identity(user.getWallet(), user.getUsername())
                 .networkConfig(networkConfigFile)
+                .commitTimeout(30, TimeUnit.SECONDS)
                 .discovery(false)
+   //             .commitHandler(DefaultCommitHandlers.MSPID_SCOPE_ANYFORTX)
                 .commitHandler((txId, network) -> new TransactionCommitHandler(network, txId, txEventManager))
                 .connect();
     }

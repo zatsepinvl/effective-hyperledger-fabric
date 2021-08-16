@@ -1,13 +1,12 @@
-package com.effective.hlf.hlf.network;
+package com.effective.hlf.hlf.wallet;
 
-import com.effective.hlf.hlf.gateway.UserIdentity;
 import com.effective.hlf.hlf.resource.ResourceUtils;
 import org.hyperledger.fabric.gateway.Wallet;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class BasicNetworkUsers {
+public class NetworkUsers {
     public static UserIdentity getIsabellaUserIdentity() {
         return getUserIdentity("User1@org1.example.com", "identity/user/isabella/wallet");
     }

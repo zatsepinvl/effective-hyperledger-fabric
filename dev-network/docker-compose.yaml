@@ -4,6 +4,11 @@ networks:
   basic:
 
 services:
+  fabric-javaenv:
+    image: fabric-javaenv:no-build
+    build:
+      context: images/fabric-javaenv
+
   ca.example.com:
     image: hyperledger/fabric-ca
     environment:
@@ -70,7 +75,7 @@ services:
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
-      - CORE_CHAINCODE_JAVA_RUNTIME=hyperledger/fabric-javaenv:amd64-1.4.8
+      - CORE_CHAINCODE_JAVA_RUNTIME=fabric-javaenv:no-build
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start --peer-chaincodedev=true
     ports:
@@ -114,7 +119,7 @@ services:
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
-      - CORE_CHAINCODE_JAVA_RUNTIME=hyperledger/fabric-javaenv:amd64-1.4.8
+      - CORE_CHAINCODE_JAVA_RUNTIME=fabric-javaenv:no-build
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start --peer-chaincodedev=true
     ports:
@@ -155,10 +160,7 @@ services:
       # scripts
       - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts
       # contracts
-      - ./../commercial-paper/commercial-paper-contract:/opt/gopath/src/github.com/hyperledger/fabric/peer/contract-java
+      - ./../commercial-paper/commercial-paper-contract/build.gradle:/opt/gopath/src/github.com/hyperledger/fabric/peer/contract-java/build.gradle
+      - ./../commercial-paper/commercial-paper-contract/build/libs/chaincode.jar:/opt/gopath/src/github.com/hyperledger/fabric/peer/contract-java/chaincode.jar
     networks:
       - basic
-    depends_on:
-      - orderer.example.com
-      - peer0.org1.example.com
-      - peer1.org1.example.com

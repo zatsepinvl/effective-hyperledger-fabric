@@ -6,6 +6,7 @@ package com.effective.hlf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.effective.hlf.ledgerapi.State;
@@ -101,6 +102,7 @@ public class CommercialPaperContract implements ContractInterface {
 
         System.out.println("EVENT SENT");
 
+        LOG.log(Level.SEVERE, "test message", new RuntimeException("test exception"));
         // Must return a serialized paper to caller of smart contract
         return paper;
     }
@@ -180,5 +182,4 @@ public class CommercialPaperContract implements ContractInterface {
         ctx.paperList.updatePaper(paper);
         return paper;
     }
-
 }

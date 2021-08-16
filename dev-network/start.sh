@@ -5,5 +5,8 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 docker-compose down
+docker-compose up -d cli
+. update-genesis.sh
+
 docker-compose up -d
 . init.sh

@@ -6,9 +6,9 @@ package com.effective.hlf.hlf;
 
 import com.effective.hlf.hlf.commercialpaper.CommercialPaper;
 import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
-import com.effective.hlf.hlf.gateway.UserIdentity;
+import com.effective.hlf.hlf.wallet.UserIdentity;
 import com.effective.hlf.hlf.gateway.*;
-import com.effective.hlf.hlf.network.BasicNetworkUsers;
+import com.effective.hlf.hlf.wallet.NetworkUsers;
 import com.effective.hlf.hlf.network.BasicNetwork;
 import com.effective.hlf.hlf.logging.LoggingUtils;
 import org.apache.logging.log4j.Level;
@@ -26,7 +26,7 @@ public class Issue {
     public static void main(String[] args) throws ContractException, InterruptedException, TimeoutException, BrokenBarrierException {
         LoggingUtils.setHlfSdkGlobalLogLevel(Level.WARN);
 
-        UserIdentity isabellaUser = BasicNetworkUsers.getIsabellaUserIdentity();
+        UserIdentity isabellaUser = NetworkUsers.getIsabellaUserIdentity();
         Path networkConfigFile = BasicNetwork.getNetworkConfigPath();
 
         SingleNetworkTransactionEventManager eventManager = new SingleNetworkTransactionEventManager();
@@ -39,6 +39,7 @@ public class Issue {
         CommercialPaperContractStub contract = new CommercialPaperContractStub(CHANNEL_NAME, gateway);
         CommercialPaper result = contract.issue("MagnetoCorp", "001", "2020-05-31", "2020-11-30", "5000000");
         System.out.println(result.toString());
+        System.exit(0);
     }
 
 }

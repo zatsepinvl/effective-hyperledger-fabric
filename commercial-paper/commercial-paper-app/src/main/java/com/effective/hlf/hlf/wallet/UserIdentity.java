@@ -1,4 +1,4 @@
-package com.effective.hlf.hlf.gateway;
+package com.effective.hlf.hlf.wallet;
 
 import org.hyperledger.fabric.gateway.Wallet;
 

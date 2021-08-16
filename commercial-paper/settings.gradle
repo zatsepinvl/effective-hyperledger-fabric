@@ -1,3 +1,4 @@
 rootProject.name = "commercial-paper"
 include "commercial-paper-app"
 include "commercial-paper-contract"
+include "effective-couchdb"

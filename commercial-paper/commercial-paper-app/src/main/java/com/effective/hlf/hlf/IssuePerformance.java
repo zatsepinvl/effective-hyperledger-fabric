@@ -7,7 +7,7 @@ package com.effective.hlf.hlf;
 import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
 import com.effective.hlf.hlf.gateway.*;
 import com.effective.hlf.hlf.logging.LoggingUtils;
-import com.effective.hlf.hlf.network.BasicNetwork;
+import com.effective.hlf.hlf.network.DevNetwork;
 import com.effective.hlf.hlf.wallet.NetworkUsers;
 import com.effective.hlf.hlf.wallet.UserIdentity;
 import org.apache.logging.log4j.Level;
@@ -23,10 +23,10 @@ public class IssuePerformance {
     private static final String CHANNEL_NAME = "mychannel";
 
     public static void main(String[] args) throws InterruptedException {
-        LoggingUtils.setHlfSdkGlobalLogLevel(Level.WARN);
+        //LoggingUtils.setHlfSdkGlobalLogLevel(Level.WARN);
 
         UserIdentity isabellaUser = NetworkUsers.getIsabellaUserIdentity();
-        Path networkConfigFile = BasicNetwork.getNetworkConfigPath();
+        Path networkConfigFile = DevNetwork.getNetworkConfigPath();
 
         SingleNetworkTransactionEventManager eventManager = new SingleNetworkTransactionEventManager();
         GatewayFactory factory = new GatewayFactoryImpl(eventManager, isabellaUser, networkConfigFile);
@@ -39,7 +39,7 @@ public class IssuePerformance {
         CommercialPaperContractStub contract1 = new CommercialPaperContractStub(CHANNEL_NAME, gateway1);
         CommercialPaperContractStub contract2 = new CommercialPaperContractStub(CHANNEL_NAME, gateway2);
 
-        int n = 20;
+        int n = 2000;
         CountDownLatch latch = new CountDownLatch(1);
         ExecutorService executor = Executors.newFixedThreadPool(20);
         AtomicInteger txNumber = new AtomicInteger();

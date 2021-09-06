@@ -5,4 +5,3 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 docker exec cli bash scripts/generate-genesis-block.sh
-cp scripts/artifacts/genesis.block genesis/genesis.block

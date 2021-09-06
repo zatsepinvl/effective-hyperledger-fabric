@@ -40,9 +40,10 @@ public class SingleNetworkTransactionEventManager implements TransactionEventMan
 
     @Override
     public void accept(BlockEvent blockEvent) {
-        blockEvent.getTransactionEvents().forEach(tx -> {
-            if (txListeners.containsKey(tx.getTransactionID())) {
-                txListeners.get(tx.getTransactionID()).onTransaction(tx);
+        blockEvent.getTransactionEvents().forEach(txEvent -> {
+            if (txListeners.containsKey(txEvent.getTransactionID())) {
+                System.out.println("Event happened on block " + txEvent.getBlockEvent().getBlockNumber());
+                txListeners.get(txEvent.getTransactionID()).onTransaction(txEvent);
             }
         });
     }

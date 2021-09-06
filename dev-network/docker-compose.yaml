@@ -41,7 +41,7 @@ services:
     ports:
       - 7050:7050
     volumes:
-      - ./genesis/:/etc/hyperledger/configtx
+      - ./scripts/artifacts/genesis.block:/etc/hyperledger/configtx/genesis.block
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/msp/orderer
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/:/var/hyperledger/orderer/tls

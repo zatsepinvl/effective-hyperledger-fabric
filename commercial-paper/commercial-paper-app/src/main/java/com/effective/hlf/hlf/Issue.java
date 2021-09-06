@@ -9,7 +9,7 @@ import com.effective.hlf.hlf.commercialpaper.CommercialPaperContractStub;
 import com.effective.hlf.hlf.wallet.UserIdentity;
 import com.effective.hlf.hlf.gateway.*;
 import com.effective.hlf.hlf.wallet.NetworkUsers;
-import com.effective.hlf.hlf.network.BasicNetwork;
+import com.effective.hlf.hlf.network.DevNetwork;
 import com.effective.hlf.hlf.logging.LoggingUtils;
 import org.apache.logging.log4j.Level;
 import org.hyperledger.fabric.gateway.ContractException;
@@ -27,7 +27,7 @@ public class Issue {
         LoggingUtils.setHlfSdkGlobalLogLevel(Level.WARN);
 
         UserIdentity isabellaUser = NetworkUsers.getIsabellaUserIdentity();
-        Path networkConfigFile = BasicNetwork.getNetworkConfigPath();
+        Path networkConfigFile = DevNetwork.getNetworkConfigPath();
 
         SingleNetworkTransactionEventManager eventManager = new SingleNetworkTransactionEventManager();
         GatewayFactory factory = new GatewayFactoryImpl(eventManager, isabellaUser, networkConfigFile);

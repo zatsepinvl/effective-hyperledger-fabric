@@ -1,4 +1,6 @@
 plugins {
+    id "org.springframework.boot" version "2.5.2"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "java"
 }
 
@@ -7,20 +9,36 @@ version "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
     maven { url "https://jitpack.io" }
 }
 
+project.ext {
+    springCloudAwsVersion = "2.3.0"
+}
+
 dependencies {
+    // Hyperledger Fabric
     implementation "org.hyperledger.fabric:fabric-gateway-java:1.4.5"
     implementation "org.json:json:20210307"
     //required for org.hyperledger.fabric.contract.annotation.*
     implementation "org.hyperledger.fabric-chaincode-java:fabric-chaincode-shim:1.4.8"
 
+    // Spring Boot
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    // Spring Cloud AWS
+    implementation "io.awspring.cloud:spring-cloud-aws-messaging:${springCloudAwsVersion}"
+    implementation "io.awspring.cloud:spring-cloud-aws-autoconfigure:${springCloudAwsVersion}"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:1.18.20"
+    annotationProcessor "org.projectlombok:lombok:1.18.20"
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
     testImplementation "org.testcontainers:testcontainers:1.15.3"
     testImplementation "org.testcontainers:junit-jupiter:1.15.3"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 test {

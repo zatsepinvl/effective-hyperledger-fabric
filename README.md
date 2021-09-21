@@ -6,11 +6,15 @@ HLF playground repository.
 
 ### docker-compose mode
 
+0. Build chaincode:
+
+`cd commercial-paper && ./gradlew shadowJar`
+   
 1. Start dev network:
 
 `cd dev-network && ./start.sh`
 
-3. Run java app code.
+3. Run commercial-paper/commercial-paper-app scripts.
 
 ### Manual mode
 

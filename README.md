@@ -12,7 +12,7 @@ HLF playground repository.
 
 2. Build custom chaincode docker image:
 
-`docker-compose build fabric-javaenv`
+`cd dev-network && docker-compose build fabric-javaenv`
 
 3. Start dev network:
 

@@ -182,4 +182,27 @@ public class CommercialPaperContract implements ContractInterface {
         ctx.paperList.updatePaper(paper);
         return paper;
     }
+
+    /**
+     * Read commercial paper
+     *
+     * @param {Context} ctx the transaction context
+     * @param {String}  issuerOrCurrentOwner commercial paper issuer or current owner
+     * @param {Integer} paperNumber paper number for this issuer
+     * @param {String}  redeemDateTime time paper was redeemed
+     */
+    @Transaction(submit = false)
+    public CommercialPaper read(CommercialPaperContext ctx, String issuerOrCurrentOwner, String paperNumber) {
+
+        String paperKey = CommercialPaper.makeKey(new String[]{paperNumber});
+
+        CommercialPaper paper = ctx.paperList.getPaper(paperKey);
+
+        // Validate ownership
+        if (!paper.getOwner().equals(issuerOrCurrentOwner) && !paper.getIssuer().equals(issuerOrCurrentOwner)) {
+            throw new RuntimeException("Paper " + issuerOrCurrentOwner + paperNumber + " is not owned or issued by " + issuerOrCurrentOwner);
+        }
+
+        return paper;
+    }
 }

@@ -27,4 +27,9 @@ public class CommercialPaperContractStub {
         byte[] response = contract.submitTransaction("buy", args);
         return CommercialPaper.deserialize(response);
     }
+
+    public CommercialPaper redeem(String... args) throws ContractException, InterruptedException, TimeoutException {
+        byte[] response = contract.submitTransaction("redeem", args);
+        return CommercialPaper.deserialize(response);
+    }
 }

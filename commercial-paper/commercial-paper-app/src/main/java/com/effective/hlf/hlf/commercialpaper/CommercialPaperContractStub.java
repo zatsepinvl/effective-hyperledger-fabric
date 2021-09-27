@@ -34,7 +34,7 @@ public class CommercialPaperContractStub {
     }
 
     public CommercialPaper read(String... args) throws ContractException, InterruptedException, TimeoutException {
-        byte[] response = contract.submitTransaction("read", args);
+        byte[] response = contract.evaluateTransaction("read", args);
         return CommercialPaper.deserialize(response);
     }
 

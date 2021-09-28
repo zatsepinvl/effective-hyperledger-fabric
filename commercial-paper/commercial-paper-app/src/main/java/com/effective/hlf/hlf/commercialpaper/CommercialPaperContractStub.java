@@ -8,8 +8,8 @@ import org.hyperledger.fabric.gateway.Network;
 import java.util.concurrent.TimeoutException;
 
 public class CommercialPaperContractStub {
-    private static final String CONTRACT_CHAINCODE_ID = "papercontract";
-    private static final String CONTRACT_NAME = "org.papernet.commercialpaper";
+    public static final String CONTRACT_CHAINCODE_ID = "papercontract";
+    public static final String CONTRACT_NAME = "org.papernet.commercialpaper";
 
     private final Contract contract;
 

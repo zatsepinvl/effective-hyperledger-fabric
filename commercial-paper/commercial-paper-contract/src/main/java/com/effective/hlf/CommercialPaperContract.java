@@ -94,13 +94,8 @@ public class CommercialPaperContract implements ContractInterface {
         // world state
         ctx.paperList.addPaper(paper);
 
-        List<String> events = new ArrayList<>();
-        events.add("issued");
-        String jsonStr = new JSONArray(events).toString();
-        System.out.println(jsonStr);
-        ctx.getStub().setEvent("event", jsonStr.getBytes(UTF_8));
-
-        System.out.println("EVENT SENT");
+        ctx.getStub().setEvent("Issue event", CommercialPaper.serialize(paper));
+        System.out.println("ISSUE EVEN SENT..");
 
         LOG.log(Level.SEVERE, "test message", new RuntimeException("test exception"));
         // Must return a serialized paper to caller of smart contract
@@ -144,6 +139,9 @@ public class CommercialPaperContract implements ContractInterface {
                     "Paper " + issuer + paperNumber + " is not trading. Current state = " + paper.getState());
         }
 
+        ctx.getStub().setEvent("Buy event", CommercialPaper.serialize(paper));
+        System.out.println("BUY EVEN SENT..");
+
         // Update the paper
         ctx.paperList.updatePaper(paper);
         return paper;
@@ -178,6 +176,9 @@ public class CommercialPaperContract implements ContractInterface {
         } else {
             throw new RuntimeException("Redeeming owner does not own paper" + issuer + paperNumber);
         }
+
+        ctx.getStub().setEvent("Redeem event", CommercialPaper.serialize(paper));
+        System.out.println("REDEEM EVEN SENT..");
 
         ctx.paperList.updatePaper(paper);
         return paper;

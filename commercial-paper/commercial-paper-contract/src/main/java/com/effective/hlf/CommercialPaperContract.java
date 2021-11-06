@@ -10,10 +10,10 @@ import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.*;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -77,7 +77,6 @@ public class CommercialPaperContract implements ContractInterface {
         CommercialPaper paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime,
                 faceValue, issuer, "");
 
-
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
 
@@ -140,6 +139,9 @@ public class CommercialPaperContract implements ContractInterface {
                     "Paper " + issuer + paperNumber + " is not trading. Current state = " + paper.getState());
         }
 
+        ctx.getStub().setEvent("Buy event", CommercialPaper.serialize(paper));
+        System.out.println("BUY EVEN SENT..");
+
         // Update the paper
         ctx.paperList.updatePaper(paper);
         return paper;
@@ -174,6 +176,9 @@ public class CommercialPaperContract implements ContractInterface {
         } else {
             throw new RuntimeException("Redeeming owner does not own paper" + issuer + paperNumber);
         }
+
+        ctx.getStub().setEvent("Redeem event", CommercialPaper.serialize(paper));
+        System.out.println("REDEEM EVEN SENT..");
 
         ctx.paperList.updatePaper(paper);
         return paper;

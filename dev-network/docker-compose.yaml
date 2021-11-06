@@ -80,6 +80,7 @@ services:
     command: peer node start --peer-chaincodedev=true
     ports:
       - 7051:7051
+      - 7052:7052
       - 7053:7053
     volumes:
       - /var/run/:/host/var/run/
@@ -124,6 +125,7 @@ services:
     command: peer node start --peer-chaincodedev=true
     ports:
       - 8051:7051
+      - 8052:7052
       - 8053:7053
     volumes:
       - /var/run/:/host/var/run/
@@ -162,5 +164,7 @@ services:
       # contracts
       - ./../commercial-paper/commercial-paper-contract/build.gradle:/opt/gopath/src/github.com/hyperledger/fabric/peer/contract-java/build.gradle
       - ./../commercial-paper/commercial-paper-contract/build/libs/chaincode.jar:/opt/gopath/src/github.com/hyperledger/fabric/peer/contract-java/chaincode.jar
+      # private collection definitions
+      - ./collections:/opt/gopath/src/github.com/hyperledger/fabric/peer/collections
     networks:
       - basic

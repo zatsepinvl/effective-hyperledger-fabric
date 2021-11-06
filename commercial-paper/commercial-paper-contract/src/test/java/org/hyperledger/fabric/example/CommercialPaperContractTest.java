@@ -4,20 +4,19 @@ SPDX-License-Identifier: Apache-2.0
 
 package org.hyperledger.fabric.example;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.hyperledger.fabric.DevRouter;
+import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hyperledger.fabric.DevRouter;
-import org.hyperledger.fabric.shim.ChaincodeStub;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public final class CommercialPaperContractTest {

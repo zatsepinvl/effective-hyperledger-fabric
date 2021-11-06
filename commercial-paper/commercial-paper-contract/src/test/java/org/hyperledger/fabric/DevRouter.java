@@ -11,7 +11,7 @@ public class DevRouter extends ContractRouter {
     }
 
     public static DevRouter getDevRouter() {
-        String args[] = new String[] { "--id", "unittestchaincode" };
+        String args[] = new String[] { "--id", "papercontract" };
         DevRouter dr = new DevRouter(args);
         dr.findAllContracts();
         MetadataBuilder.initialize(dr.getRoutingRegistry(), dr.getTypeRegistry());

@@ -4,23 +4,17 @@ SPDX-License-Identifier: Apache-2.0
 package com.effective.hlf;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.effective.hlf.ledgerapi.State;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
-import org.hyperledger.fabric.contract.annotation.Contact;
-import org.hyperledger.fabric.contract.annotation.Contract;
-import org.hyperledger.fabric.contract.annotation.Default;
-import org.hyperledger.fabric.contract.annotation.Info;
-import org.hyperledger.fabric.contract.annotation.License;
-import org.hyperledger.fabric.contract.annotation.Transaction;
+import org.hyperledger.fabric.contract.annotation.*;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -83,6 +77,7 @@ public class CommercialPaperContract implements ContractInterface {
         CommercialPaper paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime,
                 faceValue, issuer, "");
 
+
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
 
@@ -96,13 +91,14 @@ public class CommercialPaperContract implements ContractInterface {
 
         List<String> events = new ArrayList<>();
         events.add("issued");
-        String jsonStr = new JSONArray(events).toString();
-        System.out.println(jsonStr);
-        ctx.getStub().setEvent("event", jsonStr.getBytes(UTF_8));
+        String eventsJson = new JSONArray(events).toString();
+        ctx.getStub().setEvent("event", eventsJson.getBytes(UTF_8));
+        System.out.println("Events JSON: " + eventsJson);
 
-        System.out.println("EVENT SENT");
+        String paperJson = new JSONObject(paper).toString();
+        ctx.getStub().putPrivateData("assets", "1", paperJson);
+        System.out.println("Paper JSON: " + paperJson);
 
-        LOG.log(Level.SEVERE, "test message", new RuntimeException("test exception"));
         // Must return a serialized paper to caller of smart contract
         return paper;
     }

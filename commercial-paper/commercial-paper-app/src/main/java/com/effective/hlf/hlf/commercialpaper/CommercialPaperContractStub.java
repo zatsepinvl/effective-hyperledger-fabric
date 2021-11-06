@@ -1,9 +1,6 @@
 package com.effective.hlf.hlf.commercialpaper;
 
-import org.hyperledger.fabric.gateway.Contract;
-import org.hyperledger.fabric.gateway.ContractException;
-import org.hyperledger.fabric.gateway.Gateway;
-import org.hyperledger.fabric.gateway.Network;
+import org.hyperledger.fabric.gateway.*;
 
 import java.util.concurrent.TimeoutException;
 
@@ -20,6 +17,7 @@ public class CommercialPaperContractStub {
 
     public CommercialPaper issue(String... args) throws ContractException, InterruptedException, TimeoutException {
         byte[] response = contract.submitTransaction("issue", args);
+        Transaction transaction = contract.createTransaction("issue");
         return CommercialPaper.deserialize(response);
     }
 
